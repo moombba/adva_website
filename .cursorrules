@@ -1,0 +1,34 @@
+# Project Context: ADVA - Atelier des Verre & Acier
+
+## Project Overview
+This project is the professional vitrine site for **ADVA (Atelier des Verre & Acier)**, an architecture agency led by Nicolas Claudet (Architecte DPLG). The site emphasizes technical expertise, structural rigor, and administrative clarity through a modern, minimal, and architectural aesthetic.
+
+## Tech Stack
+- **Framework:** React 19 (Vite)
+- **3D Engine:** Three.js with `@react-three/fiber` and `@react-three/drei`
+- **State Management:** Zustand
+- **Styling:** Tailwind CSS 4.0
+- **Build Tool:** Vite
+- **Fonts:** Montserrat (Display/Titles) and Roboto (Sans/Body)
+
+## Architecture & Conventions
+- **Modular Structure:**
+    - `src/components/ui/`: Standard React components for HTML/CSS interface.
+    - `src/components/canvas/`: Three.js/Fiber components for 3D scenes.
+    - `src/hooks/`: Custom hooks for complex logic.
+    - `src/store/`: Zustand stores for global state management.
+- **Components:** Functional components with React hooks.
+- **3D Assets:** 3D models (`.glb`) should be placed in `src/assets/` or `public/`.
+- **Styling:** Use Tailwind CSS utility classes. Custom styles in `src/index.css`.
+- **File Naming:** PascalCase for components (e.g., `Hero.jsx`), camelCase for utilities, hooks, and stores.
+
+## Current State
+- **Architecture:** Clean, modular structure separating 3D and UI.
+- **3D Scene:** Architectural grid background with subtle structural animations.
+- **UI:** Light theme (#FFFFFF / #333333) with Montserrat/Roboto typography. Sections: Navbar, Hero, Portfolio (dynamic filtering), L'Agence, Contact.
+- **Identity:** Focused on "Atelier des Verre & Acier", highlighting mastery of glass and steel structures.
+
+## Goals
+- Maintain high performance and smooth 60fps animations.
+- Ensure "Architectural & Brut" design: plenty of whitespace, fine typography.
+- Emphasize technical precision and constructive solidity.
