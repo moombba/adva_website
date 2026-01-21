@@ -4,31 +4,122 @@
 This project is the professional vitrine site for **ADVA (Atelier des Verre & Acier)**, an architecture agency led by Nicolas Claudet (Architecte DPLG). The site emphasizes technical expertise, structural rigor, and administrative clarity through a modern, minimal, and architectural aesthetic.
 
 ## Tech Stack
-- **Framework:** React 19 (Vite)
-- **3D Engine:** Three.js with `@react-three/fiber` and `@react-three/drei`
-- **State Management:** Zustand
-- **Styling:** Tailwind CSS 4.0
-- **Build Tool:** Vite
-- **Fonts:** Montserrat (Display/Titles) and Roboto (Sans/Body)
+- **Framework:** React 19.2.0 with Vite 7.2.4
+- **3D Engine:** Three.js 0.182.0 with `@react-three/fiber` 9.4.2 and `@react-three/drei` 10.7.7
+- **State Management:** Zustand 5.0.10
+- **Styling:** Tailwind CSS 4.1.18 (via `@tailwindcss/postcss`)
+- **Build Tool:** Vite with React plugin
+- **Linting:** ESLint 9.39.1 with React hooks and refresh plugins
+- **Fonts:** Montserrat (Display/Titles) and Roboto (Sans/Body) from Google Fonts
+- **Deployment:** GitHub Pages (base path: `/adva_website/`) with CI/CD workflow
 
 ## Architecture & Conventions
 - **Modular Structure:**
-    - `src/components/ui/`: Standard React components for HTML/CSS interface.
-    - `src/components/canvas/`: Three.js/Fiber components for 3D scenes.
-    - `src/hooks/`: Custom hooks for complex logic.
-    - `src/store/`: Zustand stores for global state management.
-- **Components:** Functional components with React hooks.
-- **3D Assets:** 3D models (`.glb`) should be placed in `src/assets/` or `public/`.
-- **Styling:** Use Tailwind CSS utility classes. Custom styles in `src/index.css`.
-- **File Naming:** PascalCase for components (e.g., `Hero.jsx`), camelCase for utilities, hooks, and stores.
+    - `src/components/ui/`: Standard React components for HTML/CSS interface (Navbar, Hero, Projects, ProjectModal, About, Footer)
+    - `src/components/canvas/`: Three.js/Fiber components for 3D scenes (Scene.jsx)
+    - `src/hooks/`: Custom hooks for complex logic (directory exists, ready for use)
+    - `src/store/`: Zustand stores for global state management (useStore.js - currently empty, ready for expansion)
+    - `src/data/`: Static data files (projects.js with project data structure)
+- **Components:** Functional components with React hooks (no class components)
+- **3D Assets:** 3D models (`.glb`) should be placed in `src/assets/` or `public/` (configured in vite.config.js)
+- **Styling:** Use Tailwind CSS utility classes. Custom styles in `src/index.css` with theme configuration
+- **File Naming:** PascalCase for components (e.g., `Hero.jsx`, `ProjectModal.jsx`), camelCase for utilities, hooks, and stores (e.g., `useStore.js`, `projects.js`)
+
+## Current Implementation
+
+### Components Structure
+- **Navbar.jsx**: Fixed navigation with smooth scroll links (Projets, L'Agence, Contact), uppercase typography with tracking
+- **Hero.jsx**: Full-screen hero section with animated title "Atelier des Verre & Acier" and scroll indicator
+- **Projects.jsx**: Portfolio section with:
+  - Dynamic category filtering (Tous, Logements Collectifs, Logements Individuels, Médico-Social, Hôtellerie / Tertiaire)
+  - Grid layout with hover effects
+  - Project modal trigger on click
+  - Project cards with images, titles, descriptions, categories, cities, and status badges
+- **ProjectModal.jsx**: Full-screen modal displaying:
+  - Technical sidebar (Maître d'ouvrage, Mission, Surface, Budget)
+  - Hero image, title, description
+  - Photo gallery and technical plans
+  - Smooth animations and transitions
+- **About.jsx**: "L'Agence" section with:
+  - Team members (Nicolas Claudet, Hélène Digol, David Monti) with roles and emails
+  - Mission descriptions, project typologies, and commitments
+  - Two-column responsive layout
+- **Footer.jsx**: Contact section with:
+  - Address: 15 Parc de la Risle, 76130 Mont-Saint-Aignan
+  - Phone: 02 35 61 27 10
+  - Email: n.claudet@adva-architectes.fr
+  - LinkedIn link
+  - Embedded Google Maps
+- **Scene.jsx**: 3D background with:
+  - Infinite architectural grid (subtle, low opacity)
+  - Float animation
+  - White background (#FFFFFF)
+  - Studio environment preset
+
+### Data Structure
+- **projects.js**: Array of project objects with structure:
+  ```javascript
+  {
+    id: number,
+    title: string,
+    category: string,
+    city: string,
+    status: string,
+    description: string,
+    technical: {
+      maitreOuvrage: string,
+      mission: string,
+      surface: string,
+      budget: string
+    },
+    images: {
+      photos: string[],
+      plans: string[]
+    }
+  }
+  ```
+
+### Design System
+- **Color Palette:**
+  - Background: #FFFFFF (pure white)
+  - Text: #333333 (anthracite)
+  - Accents: Opacity variations (10%, 20%, 30%, 40%, 50%, 60%, 80%)
+- **Typography:**
+  - Display/Titles: Montserrat (font-display) - bold, uppercase, tight tracking
+  - Body/Sans: Roboto (font-sans) - regular weight, relaxed leading
+  - Font sizes: Responsive with viewport units for hero, fixed sizes for body
+- **Spacing:** Generous whitespace, large padding (px-8 md:px-24), section gaps (gap-24, gap-32)
+- **Animations:** Subtle fade-ins, slide-ins, zoom effects with duration-700/1000, smooth transitions
+- **Effects:** Grayscale images that become colored on hover, opacity transitions, scale transforms
+
+### State Management
+- Zustand store (`useStore.js`) is set up but currently empty - ready for global state needs (e.g., modal state, filters, theme)
+
+### Deployment
+- **GitHub Pages:** Configured with base path `/adva_website/`
+- **CI/CD:** GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically builds and deploys on push to main
+- **Manual deploy:** `npm run deploy` script available
+- **URL:** `https://moombba.github.io/adva_website/`
 
 ## Current State
-- **Architecture:** Clean, modular structure separating 3D and UI.
-- **3D Scene:** Architectural grid background with subtle structural animations.
-- **UI:** Light theme (#FFFFFF / #333333) with Montserrat/Roboto typography. Sections: Navbar, Hero, Portfolio (dynamic filtering), L'Agence, Contact.
-- **Identity:** Focused on "Atelier des Verre & Acier", highlighting mastery of glass and steel structures.
+- **Architecture:** Clean, modular structure separating 3D and UI components
+- **3D Scene:** Architectural grid background with subtle Float animation, infinite grid system
+- **UI:** Light theme (#FFFFFF / #333333) with Montserrat/Roboto typography
+- **Sections:** Navbar (fixed), Hero (full-screen), Portfolio (dynamic filtering), L'Agence (team & missions), Contact (footer with map)
+- **Identity:** Focused on "Atelier des Verre & Acier", highlighting mastery of glass and steel structures
+- **Responsive:** Mobile-first approach with breakpoints (sm, md, lg)
+- **Performance:** Optimized images (grayscale, lazy loading), smooth 60fps animations
+
+## Development Guidelines
+- **Code Style:** Functional components, React hooks, no class components
+- **Imports:** Use named exports for components
+- **Accessibility:** Semantic HTML, proper alt texts, keyboard navigation support
+- **Performance:** Lazy loading for images, optimized 3D rendering, smooth scroll behavior
+- **Browser Support:** Modern browsers (ES2020+)
 
 ## Goals
-- Maintain high performance and smooth 60fps animations.
-- Ensure "Architectural & Brut" design: plenty of whitespace, fine typography.
-- Emphasize technical precision and constructive solidity.
+- Maintain high performance and smooth 60fps animations
+- Ensure "Architectural & Brut" design: plenty of whitespace, fine typography
+- Emphasize technical precision and constructive solidity
+- Keep codebase clean, modular, and maintainable
+- Ensure responsive design works seamlessly across all devices
