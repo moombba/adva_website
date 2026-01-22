@@ -18,7 +18,7 @@ This project is the professional vitrine site for **ADVA (Atelier des Verre & Ac
     - `src/components/ui/`: Standard React components for HTML/CSS interface (Navbar, Hero, Projects, ProjectModal, About, Footer)
     - `src/components/canvas/`: Three.js/Fiber components for 3D scenes (Scene.jsx)
     - `src/hooks/`: Custom hooks for complex logic (directory exists, ready for use)
-    - `src/store/`: Zustand stores for global state management (useStore.js - currently empty, ready for expansion)
+    - `src/store/`: Zustand stores for global state management (useStore.js - manages modal state: selectedProject, setSelectedProject, closeModal)
     - `src/data/`: Static data files (projects.js with project data structure)
 - **Components:** Functional components with React hooks (no class components)
 - **3D Assets:** 3D models (`.glb`) should be placed in `src/assets/` or `public/` (configured in vite.config.js)
@@ -28,18 +28,35 @@ This project is the professional vitrine site for **ADVA (Atelier des Verre & Ac
 ## Current Implementation
 
 ### Components Structure
-- **Navbar.jsx**: Fixed navigation with smooth scroll links (Projets, L'Agence, Contact), uppercase typography with tracking
-- **Hero.jsx**: Full-screen hero section with animated title "Atelier des Verre & Acier" and scroll indicator
+- **Navbar.jsx**: Fixed navigation with:
+  - Smooth scroll links (Projets, L'Agence, Contact) that automatically close modal if open
+  - Logo "ADVA" clickable - scrolls to portfolio section if not already visible
+  - Uses Zustand store to close modal before navigation
+  - Uppercase typography with tracking
+- **Hero.jsx**: Full-screen hero section with:
+  - Animated title "Atelier des Verre & Acier" with enhanced drop-shadow
+  - **Carousel background**: Rotating images from the first 4 projects (auto-advance every 5 seconds)
+  - Subtle white overlay (bg-white/40) for text readability
+  - Smooth image transitions with zoom effect (scale-110) and opacity fade
+  - Clickable carousel indicators at bottom (horizontal lines, opacity-based)
+  - Scroll indicator ("Découvrir") below carousel indicators
+  - Uses `id="hero"` for navigation targeting
+  - Imports projects data for carousel functionality
 - **Projects.jsx**: Portfolio section with:
   - Dynamic category filtering (Tous, Logements Collectifs, Logements Individuels, Médico-Social, Hôtellerie / Tertiaire)
   - Grid layout with hover effects
   - Project modal trigger on click
   - Project cards with images, titles, descriptions, categories, cities, and status badges
+  - Uses Zustand store for modal state management (selectedProject from store)
 - **ProjectModal.jsx**: Full-screen modal displaying:
-  - Technical sidebar (Maître d'ouvrage, Mission, Surface, Budget)
+  - High z-index (z-[9999]) to prevent content overlap
+  - Technical data overlay on hero image (Maître d'ouvrage, Mission, Surface, Budget)
+  - Identity sidebar ("Identité Constructive" with ADVA branding)
   - Hero image, title, description
   - Photo gallery and technical plans
   - Smooth animations and transitions
+  - Prevents body scroll when open (overflow: hidden)
+  - Automatically closes when navigating via Navbar links
 - **About.jsx**: "L'Agence" section with:
   - Team members (Nicolas Claudet, Hélène Digol, David Monti) with roles and emails
   - Mission descriptions, project typologies, and commitments
@@ -90,10 +107,19 @@ This project is the professional vitrine site for **ADVA (Atelier des Verre & Ac
   - Font sizes: Responsive with viewport units for hero, fixed sizes for body
 - **Spacing:** Generous whitespace, large padding (px-8 md:px-24), section gaps (gap-24, gap-32)
 - **Animations:** Subtle fade-ins, slide-ins, zoom effects with duration-700/1000, smooth transitions
-- **Effects:** Grayscale images that become colored on hover, opacity transitions, scale transforms
+- **Effects:** 
+  - Grayscale images that become colored on hover
+  - Opacity transitions, scale transforms
+  - Carousel image zoom effect (scale-110) with smooth transitions
+  - Background carousel with fade transitions (duration-1000ms)
+  - White overlay for text readability over images
 
 ### State Management
-- Zustand store (`useStore.js`) is set up but currently empty - ready for global state needs (e.g., modal state, filters, theme)
+- Zustand store (`useStore.js`) manages global modal state:
+  - `selectedProject`: Currently selected project object (null when closed)
+  - `setSelectedProject(project)`: Opens modal with project data
+  - `closeModal()`: Closes modal by setting selectedProject to null
+  - Used by Navbar (to close modal on navigation) and Projects (to manage modal state)
 
 ### Deployment
 - **GitHub Pages:** Configured with base path `/adva_website/`
@@ -105,10 +131,21 @@ This project is the professional vitrine site for **ADVA (Atelier des Verre & Ac
 - **Architecture:** Clean, modular structure separating 3D and UI components
 - **3D Scene:** Architectural grid background with subtle Float animation, infinite grid system
 - **UI:** Light theme (#FFFFFF / #333333) with Montserrat/Roboto typography
-- **Sections:** Navbar (fixed), Hero (full-screen), Portfolio (dynamic filtering), L'Agence (team & missions), Contact (footer with map)
+- **Sections:** 
+  - Navbar (fixed, closes modal on navigation)
+  - Hero (full-screen with carousel background of project images)
+  - Portfolio (dynamic filtering, modal managed via Zustand)
+  - L'Agence (team & missions)
+  - Contact (footer with map)
+- **Hero Carousel:** 
+  - Displays first 4 projects as background images
+  - Auto-advances every 5 seconds
+  - Manual navigation via clickable indicators
+  - Subtle overlay ensures text readability
+- **Modal Management:** Global state via Zustand, automatically closes on navigation
 - **Identity:** Focused on "Atelier des Verre & Acier", highlighting mastery of glass and steel structures
 - **Responsive:** Mobile-first approach with breakpoints (sm, md, lg)
-- **Performance:** Optimized images (grayscale, lazy loading), smooth 60fps animations
+- **Performance:** Optimized images (grayscale, lazy loading), smooth 60fps animations, carousel transitions
 
 ## Development Guidelines
 - **Code Style:** Functional components, React hooks, no class components

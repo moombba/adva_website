@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { projects } from '../../data/projects';
 import { ProjectModal } from './ProjectModal';
+import { useStore } from '../../store/useStore';
 
 export function Projects() {
   const [activeCategory, setActiveCategory] = useState("Tous");
-  const [selectedProject, setSelectedProject] = useState(null);
+  const selectedProject = useStore((state) => state.selectedProject);
+  const setSelectedProject = useStore((state) => state.setSelectedProject);
   
   const categories = [
     "Tous",

@@ -11,7 +11,7 @@ export function ProjectModal({ project, onClose }) {
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-500">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-500">
       {/* Overlay */}
       <div 
         className="absolute inset-0 bg-white/98 backdrop-blur-md"
@@ -24,7 +24,7 @@ export function ProjectModal({ project, onClose }) {
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="fixed md:absolute top-8 right-8 z-[110] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2"
+          className="fixed md:absolute top-8 right-8 z-[10000] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2"
         >
           Fermer <span>✕</span>
         </button>

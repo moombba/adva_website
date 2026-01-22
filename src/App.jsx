@@ -19,7 +19,7 @@ function App() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 pointer-events-none">
+      <div className="relative z-10">
         <Hero />
         <div className="pointer-events-auto">
           <Projects />
