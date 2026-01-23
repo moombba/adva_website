@@ -13,18 +13,29 @@ function ProjectImage({ src, alt }) {
 
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
 
       // Only calculate if the element is visible in the viewport
       if (rect.top < windowHeight && rect.bottom > 0) {
         // Calculate the percentage of the element's position relative to the viewport
-        // 0 when the top of the element is at the bottom of the viewport
-        // 1 when the bottom of the element is at the top of the viewport
         const distance = windowHeight + rect.height;
         const progress = (windowHeight - rect.top) / distance;
         
         // Apply parallax: move image from -10% to 10% of its height
         const movement = (progress - 0.5) * 20; // range -10 to 10
         imageRef.current.style.transform = `scale(1.1) translateY(${movement}%)`;
+
+        // Calculate distance from center of image to center of screen
+        const imageCenterY = rect.top + rect.height / 2;
+        const screenCenterY = windowHeight / 2;
+        const distFromCenter = Math.abs(screenCenterY - imageCenterY);
+        
+        // Normalize distance: 0 at center, 1 at max distance (windowHeight/2)
+        const normalizedDist = Math.min(distFromCenter / (windowHeight / 2), 1);
+        
+        // Map distance to opacity: 0.6 at center, 0.35 at edges
+        const dynamicOpacity = 0.6 - (normalizedDist * 0.25);
+        imageRef.current.style.opacity = dynamicOpacity;
       }
     };
 
@@ -42,7 +53,7 @@ function ProjectImage({ src, alt }) {
         alt={alt}
         loading="lazy"
         decoding="async"
-        className="w-full h-[120%] absolute top-[-10%] left-0 object-cover grayscale opacity-60 group-hover:opacity-100 transition-all duration-700 ease-out"
+        className="w-full h-[120%] absolute top-[-10%] left-0 object-cover grayscale group-hover:opacity-100 transition-all duration-700 ease-out"
       />
       <div className="absolute inset-0 flex items-center justify-center bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true">
         <span className="text-[10px] uppercase tracking-[0.5em] font-bold italic translate-y-4 group-hover:translate-y-0 transition-transform duration-700">Voir les détails</span>
