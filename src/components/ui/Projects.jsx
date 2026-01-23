@@ -1,7 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { projects } from '../../data/projects';
 import { ProjectModal } from './ProjectModal';
 import { useStore } from '../../store/useStore';
+
+function ProjectImage({ src, alt }) {
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current || !imageRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Only calculate if the element is visible in the viewport
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        // Calculate the percentage of the element's position relative to the viewport
+        // 0 when the top of the element is at the bottom of the viewport
+        // 1 when the bottom of the element is at the top of the viewport
+        const distance = windowHeight + rect.height;
+        const progress = (windowHeight - rect.top) / distance;
+        
+        // Apply parallax: move image from -10% to 10% of its height
+        const movement = (progress - 0.5) * 20; // range -10 to 10
+        imageRef.current.style.transform = `scale(1.1) translateY(${movement}%)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial call
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="overflow-hidden mb-8 aspect-video bg-[#333333]/5 relative group-hover:bg-[#333333]/10 transition-colors duration-700">
+      <img 
+        ref={imageRef}
+        src={src} 
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        className="w-full h-[120%] absolute top-[-10%] left-0 object-cover grayscale opacity-60 group-hover:opacity-100 transition-all duration-700 ease-out"
+      />
+      <div className="absolute inset-0 flex items-center justify-center bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true">
+        <span className="text-[10px] uppercase tracking-[0.5em] font-bold italic translate-y-4 group-hover:translate-y-0 transition-transform duration-700">Voir les détails</span>
+      </div>
+    </div>
+  );
+}
 
 export function Projects() {
   const [activeCategory, setActiveCategory] = useState("Tous");
@@ -80,18 +128,7 @@ export function Projects() {
               <span className="text-[10px] font-bold px-3 py-1 border border-[#333333]/10 rounded-full opacity-40">{p.status}</span>
             </div>
             
-            <div className="overflow-hidden mb-8 aspect-video bg-[#333333]/5 relative group-hover:bg-[#333333]/10 transition-colors duration-700">
-              <img 
-                src={p.images.photos[0]} 
-                alt={`${p.title} - ${p.city}`}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true">
-                <span className="text-[10px] uppercase tracking-[0.5em] font-bold italic translate-y-4 group-hover:translate-y-0 transition-transform duration-700">Voir les détails</span>
-              </div>
-            </div>
+            <ProjectImage src={p.images.photos[0]} alt={`${p.title} - ${p.city}`} />
 
             <h3 className="text-4xl md:text-5xl font-display font-bold group-hover:translate-x-4 transition-transform duration-700 ease-out mb-6">{p.title}</h3>
             
