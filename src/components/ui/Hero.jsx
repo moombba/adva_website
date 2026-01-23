@@ -50,13 +50,13 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-6xl pointer-events-none">
         <div className="overflow-hidden">
-          <h1 className="text-[8vw] md:text-[6vw] leading-[1] font-display font-bold uppercase tracking-tight select-none drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] animate-in fade-in slide-in-from-bottom-12 duration-1000">
+          <h1 className="text-[32px] sm:text-[6vw] md:text-[6vw] leading-[1] font-display font-bold uppercase tracking-tight select-none drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] animate-in fade-in slide-in-from-bottom-12 duration-1000 max-w-[90vw]">
             Atelier des Verre & Acier
           </h1>
         </div>
         <div className="mt-12 flex flex-col items-center gap-4">
           <div className="h-[1px] w-24 bg-[#333333] opacity-20 animate-in fade-in duration-1000 delay-500"></div>
-          <p className="text-[12px] md:text-[14px] uppercase tracking-[1em] opacity-40 font-bold font-display animate-in fade-in zoom-in duration-1000 delay-300 translate-x-[0.5em]">
+          <p className="text-sm md:text-[12px] lg:text-[14px] uppercase tracking-[1em] opacity-40 font-bold font-display animate-in fade-in zoom-in duration-1000 delay-300 translate-x-[0.5em]">
             Architecture & Maîtrise d'œuvre
           </p>
         </div>
@@ -64,7 +64,7 @@ export function Hero() {
 
       {/* Carousel Indicators */}
       <div 
-        className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-4"
+        className="absolute bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-6 md:gap-4"
         role="tablist"
         aria-label="Indicateurs du carrousel"
       >
@@ -75,15 +75,15 @@ export function Hero() {
             role="tab"
             aria-selected={index === currentSlide}
             aria-label={`Aller à la diapositive ${index + 1}`}
-            className={`w-12 h-[2px] transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 ${
-              index === currentSlide ? 'bg-[#333333] opacity-100' : 'bg-[#333333] opacity-10 hover:opacity-30'
+            className={`w-16 h-1 md:w-12 md:h-[2px] min-h-[44px] flex items-center justify-center transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 ${
+              index === currentSlide ? 'bg-[#333333] opacity-100 scale-110' : 'bg-[#333333] opacity-10 hover:opacity-30'
             }`}
           />
         ))}
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 opacity-30 animate-bounce pointer-events-none">
+      <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 opacity-30 animate-bounce pointer-events-none">
         <span className="text-[9px] uppercase tracking-[0.4em] font-display font-bold text-[#333333]">Découvrir</span>
         <div className="w-[1px] h-12 bg-[#333333]"></div>
       </div>

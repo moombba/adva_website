@@ -34,7 +34,7 @@ export function ProjectModal({ project, onClose }) {
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-500"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-500"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -57,13 +57,13 @@ export function ProjectModal({ project, onClose }) {
         <button 
           onClick={onClose}
           aria-label="Fermer le modal"
-          className="fixed md:absolute top-8 right-8 z-[10000] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
+          className="fixed md:absolute safe-top md:top-8 right-4 md:right-8 z-[10000] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 min-h-[44px]"
         >
           Fermer <span aria-hidden="true">✕</span>
         </button>
 
         {/* Sidebar (Identity) */}
-        <aside className="w-full md:w-80 p-8 md:p-12 bg-[#333333]/[0.02] border-r border-[#333333]/5 flex flex-col justify-between order-2 md:order-1">
+        <aside className="w-full md:w-80 p-8 md:p-12 bg-[#333333]/[0.02] border-r border-[#333333]/5 flex flex-col justify-between order-1 md:order-1">
           <div>
             <span className="text-[10px] font-bold opacity-30 tracking-[0.3em] block mb-12 uppercase">Identité Constructive</span>
             
@@ -93,23 +93,23 @@ export function ProjectModal({ project, onClose }) {
             />
             
             {/* Technical Data Overlay on Photo */}
-            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent pt-20 pb-8 px-8 md:px-12 text-white animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 fill-mode-both">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent pt-20 pb-12 md:pb-8 px-8 md:px-12 text-white animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 fill-mode-both">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-12">
                 <div className="space-y-1">
                   <h4 className="text-[9px] uppercase tracking-[0.2em] font-bold opacity-50">Maître d’ouvrage</h4>
-                  <p className="text-sm font-bold tracking-tight uppercase">{project.technical.maitreOuvrage}</p>
+                  <p className="text-base md:text-sm font-bold tracking-tight uppercase">{project.technical.maitreOuvrage}</p>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-[9px] uppercase tracking-[0.2em] font-bold opacity-50">Mission</h4>
-                  <p className="text-sm font-bold tracking-tight uppercase">{project.technical.mission}</p>
+                  <p className="text-base md:text-sm font-bold tracking-tight uppercase">{project.technical.mission}</p>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-[9px] uppercase tracking-[0.2em] font-bold opacity-50">Surface</h4>
-                  <p className="text-sm font-bold tracking-tight uppercase">{project.technical.surface}</p>
+                  <p className="text-base md:text-sm font-bold tracking-tight uppercase">{project.technical.surface}</p>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-[9px] uppercase tracking-[0.2em] font-bold opacity-50">Budget</h4>
-                  <p className="text-sm font-bold tracking-tight uppercase">{project.technical.budget}</p>
+                  <p className="text-base md:text-sm font-bold tracking-tight uppercase">{project.technical.budget}</p>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@ export function ProjectModal({ project, onClose }) {
                   {project.category}
                 </span>
               </div>
-              <h2 id={titleId} className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tight leading-[0.9]">
+              <h2 id={titleId} className="text-3xl md:text-5xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-[0.9]">
                 {project.title}
               </h2>
               <p className="text-xl md:text-2xl mt-6 opacity-40 font-display italic">
@@ -193,7 +193,7 @@ export function ProjectModal({ project, onClose }) {
               <p className="text-[10px] font-bold opacity-30 uppercase tracking-[0.3em]">Fin de fiche technique</p>
               <button 
                 onClick={onClose}
-                className="px-10 py-4 border border-[#333333]/20 hover:bg-[#333333] hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
+                className="px-10 py-3 md:py-4 border border-[#333333]/20 hover:bg-[#333333] hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 min-h-[44px] flex items-center justify-center"
               >
                 Retour au portfolio
               </button>

@@ -6,17 +6,17 @@ export function About() {
   ];
 
   return (
-    <section id="about" className="relative min-h-screen flex flex-col justify-center bg-transparent py-32 px-8 md:px-24 text-[#333333] z-10">
+    <section id="about" className="relative min-h-screen flex flex-col justify-center bg-transparent py-24 md:py-32 px-8 md:px-24 text-[#333333] z-10">
       <div className="max-w-6xl w-full">
         <div className="flex items-baseline gap-4 mb-16">
           <span className="text-3xl opacity-10 font-display font-bold">02</span>
-          <h2 className="text-6xl md:text-7xl font-display font-bold uppercase tracking-tight">L'Agence</h2>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight">L'Agence</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
           <div className="space-y-12">
             <div className="space-y-6">
-              <p className="text-3xl md:text-4xl leading-[1.2] font-display font-light text-[#333333]">
+              <p className="text-xl md:text-3xl lg:text-4xl leading-[1.2] font-display font-light text-[#333333]">
                 L'Atelier des Verre & Acier explore la dualité entre la <span className="font-bold">rigueur structurelle</span> et la <span className="font-bold">clarté administrative</span>.
               </p>
               <p className="text-lg opacity-60 leading-relaxed font-sans">
@@ -29,7 +29,7 @@ export function About() {
                 <div key={i} className="group">
                   <h4 className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-2">{member.role}</h4>
                   <p className="text-lg font-display font-bold">{member.name}</p>
-                  <a href={`mailto:${member.email}`} className="text-xs opacity-0 group-hover:opacity-40 transition-opacity duration-300 block mt-1 underline decoration-1 underline-offset-4">
+                  <a href={`mailto:${member.email}`} className="text-xs opacity-60 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-300 block mt-1 underline decoration-1 underline-offset-4">
                     {member.email}
                   </a>
                 </div>

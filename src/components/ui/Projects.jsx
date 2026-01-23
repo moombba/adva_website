@@ -32,15 +32,15 @@ export function Projects() {
       id="work" 
       role="region" 
       aria-label="Portfolio des projets"
-      className="relative min-h-screen bg-transparent py-32 px-8 md:px-24 text-[#333333] z-10"
+      className="relative min-h-screen bg-transparent py-24 md:py-32 px-8 md:px-24 text-[#333333] z-10"
     >
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
         <div className="flex items-baseline gap-4">
           <span className="text-3xl opacity-10 font-display font-bold">01</span>
-          <h2 className="text-6xl md:text-7xl font-display font-bold uppercase tracking-tight">Portfolio</h2>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight">Portfolio</h2>
         </div>
         <div 
-          className="flex flex-wrap gap-4 md:gap-8 text-[10px] uppercase tracking-widest font-bold opacity-40"
+          className="flex flex-wrap gap-2 md:gap-8 text-xs md:text-[10px] uppercase tracking-widest font-bold opacity-40 overflow-x-auto md:overflow-visible"
           role="tablist"
           aria-label="Filtres de catégories"
         >
@@ -61,7 +61,7 @@ export function Projects() {
 
       <div 
         id="projects-grid"
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32"
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16 md:gap-y-32"
         role="grid"
         aria-label="Grille des projets"
       >
@@ -73,7 +73,7 @@ export function Projects() {
             tabIndex={0}
             role="gridcell"
             aria-label={`Projet ${p.title} - ${p.category} - ${p.city}`}
-            className="group cursor-pointer border-b border-[#333333]/10 pb-16 hover:border-[#333333]/30 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
+            className="group cursor-pointer border-b border-[#333333]/10 pb-16 hover:border-[#333333]/30 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 min-h-[200px]"
           >
             <div className="flex justify-between items-start mb-12">
               <span className="text-[10px] font-bold opacity-30 tracking-[0.3em]">REF_ADVA_{String(p.id).padStart(2, '0')}</span>
