@@ -20,19 +20,38 @@ export function Projects() {
     ? projects 
     : projects.filter(p => p.category === activeCategory);
 
+  const handleProjectKeyDown = (e, project) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setSelectedProject(project);
+    }
+  };
+
   return (
-    <section id="work" className="relative min-h-screen bg-transparent py-32 px-8 md:px-24 text-[#333333] z-10">
+    <section 
+      id="work" 
+      role="region" 
+      aria-label="Portfolio des projets"
+      className="relative min-h-screen bg-transparent py-32 px-8 md:px-24 text-[#333333] z-10"
+    >
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
         <div className="flex items-baseline gap-4">
           <span className="text-3xl opacity-10 font-display font-bold">01</span>
           <h2 className="text-6xl md:text-7xl font-display font-bold uppercase tracking-tight">Portfolio</h2>
         </div>
-        <div className="flex flex-wrap gap-4 md:gap-8 text-[10px] uppercase tracking-widest font-bold opacity-40">
+        <div 
+          className="flex flex-wrap gap-4 md:gap-8 text-[10px] uppercase tracking-widest font-bold opacity-40"
+          role="tablist"
+          aria-label="Filtres de catégories"
+        >
           {categories.map(cat => (
             <button 
               key={cat} 
               onClick={() => setActiveCategory(cat)}
-              className={`hover:opacity-100 transition-opacity cursor-pointer underline-offset-8 decoration-2 ${activeCategory === cat ? 'opacity-100 underline' : 'opacity-40'}`}
+              role="tab"
+              aria-selected={activeCategory === cat}
+              aria-controls="projects-grid"
+              className={`hover:opacity-100 transition-opacity cursor-pointer underline-offset-8 decoration-2 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 ${activeCategory === cat ? 'opacity-100 underline' : 'opacity-40'}`}
             >
               {cat}
             </button>
@@ -40,12 +59,21 @@ export function Projects() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">
-        {filteredProjects.map((p, i) => (
-          <div 
+      <div 
+        id="projects-grid"
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32"
+        role="grid"
+        aria-label="Grille des projets"
+      >
+        {filteredProjects.map((p) => (
+          <article
             key={p.id} 
             onClick={() => setSelectedProject(p)}
-            className="group cursor-pointer border-b border-[#333333]/10 pb-16 hover:border-[#333333]/30 transition-all duration-500"
+            onKeyDown={(e) => handleProjectKeyDown(e, p)}
+            tabIndex={0}
+            role="gridcell"
+            aria-label={`Projet ${p.title} - ${p.category} - ${p.city}`}
+            className="group cursor-pointer border-b border-[#333333]/10 pb-16 hover:border-[#333333]/30 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
           >
             <div className="flex justify-between items-start mb-12">
               <span className="text-[10px] font-bold opacity-30 tracking-[0.3em]">REF_ADVA_{String(p.id).padStart(2, '0')}</span>
@@ -55,10 +83,12 @@ export function Projects() {
             <div className="overflow-hidden mb-8 aspect-video bg-[#333333]/5 relative group-hover:bg-[#333333]/10 transition-colors duration-700">
               <img 
                 src={p.images.photos[0]} 
-                alt={p.title} 
+                alt={`${p.title} - ${p.city}`}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <div className="absolute inset-0 flex items-center justify-center bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true">
                 <span className="text-[10px] uppercase tracking-[0.5em] font-bold italic translate-y-4 group-hover:translate-y-0 transition-transform duration-700">Voir les détails</span>
               </div>
             </div>
@@ -71,15 +101,15 @@ export function Projects() {
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               <p className="text-[11px] uppercase tracking-[0.2em] font-bold opacity-40">{p.category}</p>
-              <span className="w-8 h-[1px] bg-[#333333] opacity-10 hidden sm:block"></span>
+              <span className="w-8 h-[1px] bg-[#333333] opacity-10 hidden sm:block" aria-hidden="true"></span>
               <p className="text-[11px] uppercase tracking-[0.2em] font-bold opacity-40">{p.city}</p>
             </div>
-          </div>
+          </article>
         ))}
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="py-24 text-center opacity-30 italic font-display">
+        <div className="py-24 text-center opacity-30 italic font-display" role="status" aria-live="polite">
           Aucun projet dans cette catégorie pour le moment.
         </div>
       )}

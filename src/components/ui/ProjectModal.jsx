@@ -1,32 +1,65 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 
 export function ProjectModal({ project, onClose }) {
+  const modalRef = useRef(null);
+  const titleId = `modal-title-${project?.id || 'default'}`;
+
+  // Focus trap
+  useFocusTrap(!!project, modalRef);
+
+  // Navigation clavier (ESC pour fermer)
+  useKeyboardNavigation(
+    {
+      Escape: () => {
+        if (project) {
+          onClose();
+        }
+      },
+    },
+    !!project
+  );
+
   useEffect(() => {
+    if (!project) return;
+
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [project]);
 
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-500">
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-12 animate-in fade-in duration-500"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      aria-describedby={`modal-description-${project.id}`}
+    >
       {/* Overlay */}
       <div 
         className="absolute inset-0 bg-white/98 backdrop-blur-md"
         onClick={onClose}
+        aria-hidden="true"
       ></div>
 
       {/* Content Container */}
-      <div className="relative w-full max-w-7xl h-full md:h-auto md:max-h-[90vh] overflow-y-auto bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] flex flex-col md:flex-row text-[#333333] font-sans animate-in zoom-in-95 slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both">
+      <div 
+        ref={modalRef}
+        className="relative w-full max-w-7xl h-full md:h-auto md:max-h-[90vh] overflow-y-auto bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] flex flex-col md:flex-row text-[#333333] font-sans animate-in zoom-in-95 slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both"
+      >
         
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="fixed md:absolute top-8 right-8 z-[10000] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2"
+          aria-label="Fermer le modal"
+          className="fixed md:absolute top-8 right-8 z-[10000] text-[10px] uppercase tracking-widest font-bold bg-white/80 backdrop-blur-sm md:bg-transparent p-4 md:p-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
         >
-          Fermer <span>✕</span>
+          Fermer <span aria-hidden="true">✕</span>
         </button>
 
         {/* Sidebar (Identity) */}
@@ -53,7 +86,9 @@ export function ProjectModal({ project, onClose }) {
           <div className="aspect-video w-full overflow-hidden bg-[#333333]/5 relative group">
             <img 
               src={project.images.photos[0]} 
-              alt={project.title} 
+              alt={`${project.title} - ${project.city}`}
+              loading="eager"
+              decoding="async"
               className="w-full h-full object-cover animate-in fade-in zoom-in-105 duration-1000 fill-mode-both"
             />
             
@@ -91,7 +126,7 @@ export function ProjectModal({ project, onClose }) {
                   {project.category}
                 </span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tight leading-[0.9]">
+              <h2 id={titleId} className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tight leading-[0.9]">
                 {project.title}
               </h2>
               <p className="text-xl md:text-2xl mt-6 opacity-40 font-display italic">
@@ -100,7 +135,10 @@ export function ProjectModal({ project, onClose }) {
             </header>
 
             {/* Storytelling */}
-            <section className="mb-32 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400 fill-mode-both">
+            <section 
+              id={`modal-description-${project.id}`}
+              className="mb-32 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400 fill-mode-both"
+            >
               <h4 className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-8">Note d'intention</h4>
               <p className="text-xl md:text-2xl leading-relaxed font-sans text-[#333333] opacity-80 font-light">
                 {project.description}
@@ -117,7 +155,11 @@ export function ProjectModal({ project, onClose }) {
                       <div key={i} className="aspect-video bg-[#333333]/5 overflow-hidden group">
                         <img 
                           src={img} 
-                          alt={`${project.title} - Photo ${i + 2}`} 
+                          alt={`${project.title} - ${project.city} - Photo ${i + 2}`}
+                          loading="lazy"
+                          decoding="async"
+                          role="img"
+                          aria-label={`Photographie ${i + 2} du projet ${project.title}`}
                           className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                         />
                       </div>
@@ -133,7 +175,11 @@ export function ProjectModal({ project, onClose }) {
                     <div key={i} className="bg-[#333333]/[0.02] p-8 md:p-16 overflow-hidden group border border-[#333333]/5">
                       <img 
                         src={img} 
-                        alt={`${project.title} - Plan ${i + 1}`} 
+                        alt={`${project.title} - Plan technique ${i + 1}`}
+                        loading="lazy"
+                        decoding="async"
+                        role="img"
+                        aria-label={`Plan technique ${i + 1} du projet ${project.title}`}
                         className="w-full h-auto object-contain mix-blend-multiply opacity-60 group-hover:opacity-100 transition-opacity duration-700"
                       />
                     </div>
@@ -147,7 +193,7 @@ export function ProjectModal({ project, onClose }) {
               <p className="text-[10px] font-bold opacity-30 uppercase tracking-[0.3em]">Fin de fiche technique</p>
               <button 
                 onClick={onClose}
-                className="px-10 py-4 border border-[#333333]/20 hover:bg-[#333333] hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest cursor-pointer"
+                className="px-10 py-4 border border-[#333333]/20 hover:bg-[#333333] hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
               >
                 Retour au portfolio
               </button>

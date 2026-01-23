@@ -13,25 +13,36 @@ export function Hero() {
   }, [carouselProjects.length]);
 
   return (
-    <section id="hero" className="relative h-screen flex flex-col items-center justify-center text-[#333333] overflow-hidden pointer-events-auto">
+    <section 
+      id="hero" 
+      role="region" 
+      aria-label="Section principale - Atelier des Verre & Acier"
+      className="relative h-screen flex flex-col items-center justify-center text-[#333333] overflow-hidden pointer-events-auto"
+    >
       {/* Carousel Background */}
-      <div className="absolute inset-0 z-0">
+      <div 
+        className="absolute inset-0 z-0"
+        aria-live="polite"
+        aria-label="Carrousel de projets"
+      >
         {carouselProjects.map((project, index) => (
           <div
             key={project.id}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? 'opacity-10 opacity-20' : 'opacity-0'
+              index === currentSlide ? 'opacity-20' : 'opacity-0'
             }`}
           >
             <img
               src={project.images.photos[0]}
-              alt=""
+              alt={`${project.title} - ${project.city}`}
               className={`w-full h-full object-cover transition-transform duration-[5000ms] ease-linear ${
                 index === currentSlide ? 'scale-110' : 'scale-100'
               }`}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
             />
             {/* Subtle Overlay to ensure text readability */}
-            <div className="absolute inset-0 bg-white/40"></div>
+            <div className="absolute inset-0 bg-white/40" aria-hidden="true"></div>
           </div>
         ))}
       </div>
@@ -52,15 +63,21 @@ export function Hero() {
       </div>
 
       {/* Carousel Indicators */}
-      <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+      <div 
+        className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-4"
+        role="tablist"
+        aria-label="Indicateurs du carrousel"
+      >
         {carouselProjects.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-12 h-[2px] transition-all duration-500 cursor-pointer ${
+            role="tab"
+            aria-selected={index === currentSlide}
+            aria-label={`Aller à la diapositive ${index + 1}`}
+            className={`w-12 h-[2px] transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2 ${
               index === currentSlide ? 'bg-[#333333] opacity-100' : 'bg-[#333333] opacity-10 hover:opacity-30'
             }`}
-            aria-label={`Aller à la diapositive ${index + 1}`}
           />
         ))}
       </div>

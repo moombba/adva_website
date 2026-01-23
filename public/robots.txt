@@ -1,0 +1,18 @@
+# robots.txt pour ADVA - Atelier des Verre & Acier
+# https://moombba.github.io/adva_website/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://moombba.github.io/adva_website/sitemap.xml
+
+# Désactiver l'indexation des fichiers de build et assets techniques
+Disallow: /src/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /node_modules/
+
+# Autoriser les images et ressources publiques
+Allow: /images/
+Allow: /assets/

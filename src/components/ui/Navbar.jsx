@@ -38,11 +38,26 @@ export function Navbar() {
     }, 100);
   };
 
+  const handleLogoKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleLogoClick();
+    }
+  };
+
   return (
-    <nav className="fixed top-0 left-0 w-full p-10 flex justify-between items-center z-50 text-[#333333] text-[11px] font-bold uppercase tracking-[0.3em] font-display">
+    <nav 
+      role="navigation" 
+      aria-label="Navigation principale"
+      className="fixed top-0 left-0 w-full p-10 flex justify-between items-center z-50 text-[#333333] text-[11px] font-bold uppercase tracking-[0.3em] font-display"
+    >
       <div 
         onClick={handleLogoClick}
-        className="text-2xl tracking-tighter normal-case hover:scale-105 transition-transform cursor-pointer font-bold"
+        onKeyDown={handleLogoKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label="Retour au portfolio"
+        className="text-2xl tracking-tighter normal-case hover:scale-105 transition-transform cursor-pointer font-bold focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
       >
         ADVA
       </div>
@@ -50,26 +65,26 @@ export function Navbar() {
         <a 
           href="#work" 
           onClick={(e) => handleNavClick(e, 'work')}
-          className="hover:text-black transition-colors relative group"
+          className="hover:text-black transition-colors relative group focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
         >
           Projets
-          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full"></span>
+          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full" aria-hidden="true"></span>
         </a>
         <a 
           href="#about" 
           onClick={(e) => handleNavClick(e, 'about')}
-          className="hover:text-black transition-colors relative group"
+          className="hover:text-black transition-colors relative group focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
         >
           L'Agence
-          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full"></span>
+          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full" aria-hidden="true"></span>
         </a>
         <a 
           href="#contact" 
           onClick={(e) => handleNavClick(e, 'contact')}
-          className="hover:text-black transition-colors relative group"
+          className="hover:text-black transition-colors relative group focus:outline-none focus:ring-2 focus:ring-[#333333] focus:ring-offset-2"
         >
           Contact
-          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full"></span>
+          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#333333] transition-all group-hover:w-full" aria-hidden="true"></span>
         </a>
       </div>
     </nav>
